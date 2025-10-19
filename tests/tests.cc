@@ -81,12 +81,6 @@ TEST_CASE("Withdrawing over the limit", "[ex-4]") {
   REQUIRE_THROWS_AS(atm.WithdrawCash(12345678, 1234, 400), std::runtime_error);
 }
 
-TEST_CASE("Withdrawing negative money", "[ex-9]") {
-  Atm atm;
-  atm.RegisterAccount(12345678, 1234, "Sam Sepiol", 300.30);
-  REQUIRE_THROWS_AS(atm.WithdrawCash(12345678, 1234, -10), std::runtime_error);
-}
-
 TEST_CASE("Creating two accounts with same ID", "[ex-5]") {
   Atm atm;
   atm.RegisterAccount(12345678, 1234, "Sam Sepiol", 300.30);
@@ -115,4 +109,11 @@ TEST_CASE("Example: Simple deposit", "[ex-8]") {
   Account sam_account = accounts[{12345678, 1234}];
 
   REQUIRE(sam_account.balance == 320.30);
+}
+
+TEST_CASE("Withdrawing negative money", "[ex-9]") {
+  Atm atm;
+  atm.RegisterAccount(12345678, 1234, "Sam Sepiol", 300.30);
+  REQUIRE_THROWS_AS(atm.WithdrawCash(12345678, 1234, -10),
+                    std::invalid_argument);
 }
